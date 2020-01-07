@@ -18,7 +18,7 @@ mongoose.connect(process.env.URLDB, {
     useNewUrlParser: true,
     useCreateIndex: true
 }).then(() => console.log('DB Connected!')).catch(err => {
-    console.log(err.message, process.env.URLDB);
+    console.log(err.message);
 });
 
 app.listen(process.env.PORT, () => {
