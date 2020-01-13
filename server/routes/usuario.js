@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const Usuario = require('../models/usuario');
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
 
     let desde = req.query.desde || 0;
     let limit = req.query.limit || 10;
@@ -42,7 +43,7 @@ app.get('/usuario', function (req, res) {
         })
 })
 
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let body = req.body;
 
@@ -68,7 +69,7 @@ app.post('/usuario', function (req, res) {
     })
 })
 
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
 
@@ -92,7 +93,7 @@ app.put('/usuario/:id', function (req, res) {
     })
 })
 
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
 
     let cambiaEstado = {
